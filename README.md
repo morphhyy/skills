@@ -11,3 +11,7 @@ Claude Code skills.
 Copy a skill folder into `~/.claude/skills/` (all projects) or `<project>/.claude/skills/` (one project).
 
 Credentials (YouTube OAuth client, token, cookies) live in `~/.config/live-clipper/` and are never part of this repo.
+
+## License
+
+[MIT](LICENSE)
