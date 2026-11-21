@@ -19,7 +19,8 @@ Everything is free: streamlink, ffmpeg, whisper.cpp, yt-dlp, and chat read witho
 
 ```bash
 S=.claude/skills/live-stream-clipper/scripts   # run from the project root
-bash $S/setup.sh                                  # once: streamlink, ffmpeg, whisper-cpp, uv, model
+# needs on PATH: streamlink, yt-dlp, ffmpeg, whisper-cli (whisper.cpp), uv
+# + model: ~/.cache/whisper/ggml-small.bin (huggingface.co/ggerganov/whisper.cpp)
 python3 $S/clipper.py <channel>                   # Twitch: clip to ./clips-<channel>/clips/<id>/short.mp4
 python3 $S/clipper.py "https://www.youtube.com/watch?v=ID"   # YouTube live URL
 python3 $S/clipper.py <channel> --max-clips 3 --export output   # "give me 3 clips in output/"
@@ -53,7 +54,7 @@ It waits for the channel to go live, learns the chat baseline for 90s (`--warmup
 | Clip starts after the funny part | raise `--pre` (chat lags the moment by 5–15s) |
 | Clip cuts off the reaction | raise `--post` |
 | Wrong caption language | `--lang en` (default is auto-detect) |
-| Captions slow on an old Mac | `WHISPER_MODEL=base bash setup.sh` then `--model ~/.cache/whisper/ggml-base.bin` |
+| Captions slow on an old Mac | Download `ggml-base.bin` into `~/.cache/whisper/` and pass `--model ~/.cache/whisper/ggml-base.bin` |
 | YouTube: clips fire late or never | YouTube only shows a sample of chat (Top chat) in ~5s batches. Sampled chat is flatter (bursts are ~2-3x, not 5x), so the defaults are `--mult 2 --floor 6 --chat-delay 10`. Lower `--floor` to 4 for small streams |
 | Multiple streamers | one clipper process per channel, each with its own `--out` |
 

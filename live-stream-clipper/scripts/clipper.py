@@ -467,9 +467,9 @@ def main():
 
     for tool in ("streamlink", "ffmpeg") + (("yt-dlp",) if yt else ()):
         if not shutil.which(tool):
-            sys.exit(f"missing {tool} - run: bash {HERE}/setup.sh")
+            sys.exit(f"missing {tool} - install it and make sure it is on PATH")
     if not a.no_captions and not (shutil.which("whisper-cli") and Path(a.model).exists()):
-        print(f"! captions disabled: need whisper-cli + {a.model} (run setup.sh)")
+        print(f"! captions disabled: need whisper-cli + {a.model} (see SKILL.md)")
         a.no_captions = True
 
     rec, chat = Recorder(a, a.outdir), Chat(a, a.outdir)
