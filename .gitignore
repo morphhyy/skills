@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+*.bak*
+.DS_Store
+# never commit credentials / sessions
+*cookies*.txt
+*token*.json
+client_secret*.json
+.env*
+.playwright-cli/
+channel_id
+pw_path
