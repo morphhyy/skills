@@ -11,7 +11,7 @@
 Needs an OAuth "Desktop app" client from Google Cloud saved as
 ~/.config/live-clipper/client_secret.json (YouTube Data API v3 enabled).
 """
-import argparse, json, sys
+import argparse, json, os, sys
 from pathlib import Path
 
 CFG = Path.home() / ".config" / "live-clipper"
@@ -32,9 +32,11 @@ def creds():
         if not SECRET.exists():
             sys.exit(f"missing {SECRET} - create an OAuth Desktop client (see SKILL.md)")
         c = InstalledAppFlow.from_client_secrets_file(str(SECRET), SCOPES).run_local_server(port=0)
-    CFG.mkdir(parents=True, exist_ok=True)
-    TOKEN.write_text(c.to_json())
-    TOKEN.chmod(0o600)
+    CFG.mkdir(mode=0o700, parents=True, exist_ok=True)
+    fd = os.open(TOKEN, os.O_WRONLY | os.O_CREAT | os.O_TRUNC, 0o600)   # never world-readable, even briefly
+    with os.fdopen(fd, "w") as f:
+        f.write(c.to_json())
+    TOKEN.chmod(0o600)   # tighten a pre-existing file too
     return c
 
 
